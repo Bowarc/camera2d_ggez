@@ -93,7 +93,7 @@ impl Camera {
     }
 
     // Clockwise rotation
-    pub fn world_view<P>(&self) -> Rect {
+    pub fn world_view(&self) -> Rect {
         let topleft = self.screen_to_world_coords(0.);
 
         Rect::new(
