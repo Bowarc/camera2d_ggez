@@ -3,7 +3,7 @@ use ggez::{
     graphics::DrawParam,
     Context,
 };
-use maths::{Point, Vec2};
+use maths::{Point, Rect, Vec2};
 
 use super::transform::Transform;
 
@@ -93,13 +93,17 @@ impl Camera {
     }
 
     // Clockwise rotation
-    pub fn world_view<P>(&self) -> [Point; 4] {
-        [
-            self.screen_to_world_coords((0., 0.)),
-            self.screen_to_world_coords((self.screen_size.x, 0.)),
-            self.screen_to_world_coords((self.screen_size.x, self.screen_size.y)),
-            self.screen_to_world_coords((0., self.screen_size.y)),
-        ]
+    pub fn world_view<P>(&self) -> Rect {
+        let topleft = self.screen_to_world_coords(0.);
+
+        Rect::new(
+            topleft,
+            maths::get_distance(
+                topleft,
+                self.screen_to_world_coords((self.screen_size.x, 0.)),
+            ),
+            0.,
+        )
     }
 
     pub fn set_position<P>(&mut self, point: P)
