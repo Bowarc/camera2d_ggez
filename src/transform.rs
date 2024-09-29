@@ -1,23 +1,21 @@
 use ggez::{
     glam::Mat4,
     graphics::{self, DrawParam},
-    mint::{Point2, Vector2},
 };
+use maths::{Point, Vec2};
 
 #[derive(Clone, Copy)]
 pub struct Transform {
-    pub dest: Point2<f32>,
-    pub rotation: f32,
-    pub scale: Vector2<f32>,
-    pub offset: Point2<f32>,
+    pub dest: Point,
+    pub rotation: f64,
+    pub scale: Vec2,
+    pub offset: Point,
 }
 
 impl Transform {
     pub fn to_matrix(&self) -> Mat4 {
-        let offset = Point2::<f32> {
-            x: self.offset.x / self.scale.x,
-            y: self.offset.y / self.scale.y,
-        };
+        let offset = self.offset / self.scale;
+
         let (sinr, cosr) = self.rotation.sin_cos();
         let m00 = cosr * self.scale.x;
         let m01 = -sinr * self.scale.y;
@@ -27,8 +25,8 @@ impl Transform {
         let m13 = offset.y * (-m11) - offset.x * m10 + self.dest.y;
 
         Mat4::from_cols_array(&[
-            m00, m01, 0.0, m03, //
-            m10, m11, 0.0, m13, //
+            m00 as f32, m01 as f32, 0.0, m03 as f32, //
+            m10 as f32, m11 as f32, 0.0, m13 as f32, //
             0.0, 0.0, 1.0, 0.0, //
             0.0, 0.0, 0.0, 1.0, //
         ])
@@ -43,10 +41,10 @@ impl Transform {
 impl Default for Transform {
     fn default() -> Self {
         Transform {
-            dest: Point2 { x: 0., y: 0. },
+            dest: Point::ZERO,
             rotation: 0.,
-            scale: Vector2 { x: 1., y: 1. },
-            offset: Point2 { x: 0., y: 0. },
+            scale: Vec2::ONE,
+            offset: Point::ZERO,
         }
     }
 }
@@ -66,10 +64,10 @@ impl From<graphics::Transform> for Transform {
                 scale,
                 offset,
             } => Transform {
-                dest,
-                rotation,
-                scale,
-                offset,
+                dest: dest.into(),
+                rotation: rotation as f64,
+                scale: scale.into(),
+                offset: offset.into(),
             },
             graphics::Transform::Matrix(_) => {
                 panic!("Cannot convert ggez::Transform to crate::Transform")
