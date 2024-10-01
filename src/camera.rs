@@ -99,8 +99,8 @@ impl Camera {
         Rect::new(
             topleft,
             maths::get_distance(
-                topleft,
-                self.screen_to_world_coords((self.screen_size.x, 0.)),
+                &topleft,
+                &self.screen_to_world_coords((self.screen_size.x, 0.)),
             ),
             0.,
         )
