@@ -3,7 +3,7 @@ use ggez::{
     graphics::DrawParam,
     Context,
 };
-use maths::{Point, Rect, Vec2};
+use math::{Point, Rect, Vec2};
 
 use super::transform::Transform;
 
@@ -98,7 +98,7 @@ impl Camera {
 
         Rect::new(
             topleft,
-            maths::get_distance(
+            math::get_distance(
                 &topleft,
                 &self.screen_to_world_coords((self.screen_size.x, 0.)),
             ),

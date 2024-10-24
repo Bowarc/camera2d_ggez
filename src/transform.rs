@@ -2,7 +2,7 @@ use ggez::{
     glam::Mat4,
     graphics::{self, DrawParam},
 };
-use maths::{Point, Vec2};
+use math::{Point, Vec2};
 
 #[derive(Clone, Copy)]
 pub struct Transform {

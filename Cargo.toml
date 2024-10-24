@@ -7,4 +7,6 @@ edition = "2021"
 
 [dependencies]
 ggez = "0.9.3"
-maths = {git = "https:/github.com/bowarc/crates", package = "maths", features = ["ggez"] }
+math = { git = "https:/github.com/bowarc/crates", package = "math", features = [
+  "ggez",
+] }
