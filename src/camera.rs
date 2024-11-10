@@ -198,6 +198,14 @@ impl Camera {
     pub fn set_rotation(&mut self, angle: f64) {
         self.rotation = angle;
     }
+
+    pub fn screen_size(&self) -> math::Vec2 {
+        self.screen_size
+    }
+
+    pub fn set_screen_size(&mut self, new_screen_size: impl Into<math::Vec2>) {
+        self.screen_size = new_screen_size.into()
+    }
 }
 
 impl From<Camera> for DrawParam {
