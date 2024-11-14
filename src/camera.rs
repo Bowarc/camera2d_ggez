@@ -116,7 +116,8 @@ impl Camera {
     where
         P: Into<Point>,
     {
-        self.offset = point.into() * self.scale
+        // self.offset = point.into() * self.scale
+        self.offset = point.into()
     }
 
     pub fn move_by_world_coords<P>(&mut self, delta: P)
