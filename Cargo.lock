@@ -1335,7 +1335,7 @@ dependencies = [
 [[package]]
 name = "math"
 version = "0.1.0"
-source = "git+https://github.com/bowarc/crates#c64cd48c08551ac265daf6cb6dd52abaf445f889"
+source = "git+https://github.com/bowarc/crates#3d2b37b2f1ca9906ced53cb467a079deec811276"
 dependencies = [
  "ggez",
  "log",

@@ -1,7 +1,6 @@
 use ggez::{
     glam::{f64, Mat4, Vec3},
     graphics::DrawParam,
-    Context,
 };
 use math::{Point, Rect, Vec2};
 
@@ -110,36 +109,28 @@ impl Camera {
     where
         P: Into<Point>,
     {
-        let point: Point = point.into();
-        self.position.x = point.x;
-        self.position.y = point.y;
+        self.position = point.into()
     }
 
     pub fn set_offset<P>(&mut self, point: P)
     where
         P: Into<Point>,
     {
-        let point: Point = point.into();
-        self.offset.x = point.x * self.scale.x;
-        self.offset.y = point.y * self.scale.y;
+        self.offset = point.into() * self.scale
     }
 
     pub fn move_by_world_coords<P>(&mut self, delta: P)
     where
         P: Into<Point>,
     {
-        let delta: Point = delta.into();
-        self.position.x -= delta.x;
-        self.position.y -= delta.y;
+        self.position -= delta.into()
     }
 
     pub fn move_by_screen_coords<P>(&mut self, delta: P)
     where
         P: Into<Point>,
     {
-        let delta: Point = delta.into();
-        self.position.x -= delta.x / self.scale.x;
-        self.position.y -= delta.y / self.scale.y;
+        self.position -= delta.into() / self.scale;
     }
 
     pub fn get_zoom(&self) -> Vec2 {
@@ -157,18 +148,15 @@ impl Camera {
     where
         V: Into<Vec2>,
     {
-        let factor: Vec2 = factor.into();
-        self.scale.x *= factor.x;
-        self.scale.y *= factor.y;
+        self.scale *= factor.into();
     }
 
-    pub fn zoom_center<V>(&mut self, ctx: &Context, factor: V)
+    pub fn zoom_center<V>(&mut self, factor: V)
     where
         V: Into<Vec2>,
     {
         let factor: Vec2 = factor.into();
-        let screen_rect: Point = ctx.gfx.drawable_size().into();
-        let screen_center = screen_rect * 0.5;
+        let screen_center = self.screen_size * 0.5;
 
         let world_center = self.screen_to_world_coords(screen_center);
         self.position.x = world_center.x - (world_center.x - self.position.x) / factor.x;
